@@ -1,5 +1,5 @@
 // build a simple express app with mongoose , helmet, cors, morgan, body-parser
-
+require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const helmet = require('helmet');
@@ -11,7 +11,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // connect to mongodb
-mongoose.connect('mongodb://localhost:27017/express-mongoose', { useNewUrlParser: true });
+mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true });
 
 // use helmet
 app.use(helmet());
