@@ -1,0 +1,35 @@
+// build a simple express app with mongoose , helmet, cors, morgan, body-parser
+
+const express = require('express');
+const mongoose = require('mongoose');
+const helmet = require('helmet');
+const cors = require('cors');
+const morgan = require('morgan');
+const bodyParser = require('body-parser');
+
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+// connect to mongodb
+mongoose.connect('mongodb://localhost:27017/express-mongoose', { useNewUrlParser: true });
+
+// use helmet
+app.use(helmet());
+
+// use cors
+app.use(cors());
+
+// use morgan
+app.use(morgan('dev'));
+
+// use body-parser
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+// use routes
+app.use('/api', require('./routes/api'));
+
+// start server
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});
