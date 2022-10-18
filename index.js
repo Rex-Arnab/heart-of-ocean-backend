@@ -11,7 +11,9 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // connect to mongodb
-mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true });
+mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true }, () => {
+    console.log('connected to mongodb');
+});
 
 // use helmet
 app.use(helmet());
@@ -28,6 +30,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // use routes
 app.use('/api', require('./routes/api'));
+
 
 // start server
 app.listen(PORT, () => {
