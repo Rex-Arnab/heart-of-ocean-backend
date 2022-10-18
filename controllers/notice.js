@@ -1,7 +1,4 @@
-// Create a Notice controller to handle CRUD operation on a single notice document
-// router.get('/', get_notice);
-// router.patch('/', update_notice);
-// router.put('/', create_notice);
+// Notice controller to handle CRUD operation on a single notice document
 
 const Notice = require('../models/Notice');
 

@@ -1,11 +1,5 @@
 const User = require('../models/User');
 
-// router.get('/', UserController.get_all_users);
-// router.post('/', UserController.create_user);
-// router.get('/:userId', UserController.get_user);
-// router.patch('/:userId', UserController.update_user);
-// router.delete('/:userId', UserController.delete_user);
-
 // Get all users
 exports.get_all_users = (_req, res) => {
     User.find()

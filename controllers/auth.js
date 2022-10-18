@@ -1,19 +1,6 @@
-// User
-// 1. name
-// 2. email
-// 3. password
-// 4. date
-// 5. createdAt
-// 6. updatedAt
-// 7. wallet (main, fund)
-// 8. status (active)
-// 9. role (admin, user)
-// 10. referralCode
-// 11. parentReferralCode
-
+// auth controller with login and register using jwt
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
-// Create a auth controller with login and register using jwt
 
 // @route   POST api/auth/register
 // @desc    Register user
