@@ -31,7 +31,7 @@ exports.register = async (req, res) => {
             email,
             password,
             phone,
-            parentReferralCode,
+            parentReferralCode: "none",
             referralCode: generateReferralCode()
         });
         await user.save();
