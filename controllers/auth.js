@@ -8,12 +8,12 @@ const jwt = require('jsonwebtoken');
 
 const generateReferralCode = () => {
     let referralCode = '';
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ#$0123456789';
     const charactersLength = characters.length;
     for (let i = 0; i < 6; i++) {
         referralCode += characters.charAt(Math.floor(Math.random() * charactersLength));
     }
-    return referralCode;
+    return referralCode.toUpperCase();
 }
 
 exports.register = async (req, res) => {
@@ -90,7 +90,8 @@ exports.login = async (req, res) => {
             },
             (err, token) => {
                 if (err) throw err;
-                res.json({ token });
+                let { password, ...userWithoutPassword } = user.toObject();
+                res.json({ token, user: userWithoutPassword });
             }
         );
     } catch (err) {
