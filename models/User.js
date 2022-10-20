@@ -58,6 +58,44 @@ const UserSchema = new mongoose.Schema({
             default: true
         },
     },
+    income: {
+        level: {
+            type: Number,
+            default: 0
+        },
+        loanInstallment: {
+            type: Number,
+            default: 0
+        },
+        due: {
+            type: Number,
+            default: 0
+        },
+        task: {
+            type: Number,
+            default: 0
+        },
+        royalty: {
+            type: Number,
+            default: 0
+        },
+        today: {
+            type: Number,
+            default: 0
+        },
+        totalBalance: {
+            type: Number,
+            default: 0
+        },
+        totalWithdraw: {
+            type: Number,
+            default: 0
+        },
+        totalAvailable: {
+            type: Number,
+            default: 0
+        },
+    },
     role: {
         type: String,
         enum: ['admin', 'user'],
