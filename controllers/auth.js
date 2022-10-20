@@ -1,5 +1,6 @@
 // auth controller with login and register using jwt
 const User = require('../models/User');
+const Notice = require('../models/Notice');
 const jwt = require('jsonwebtoken');
 
 // @route   POST api/auth/register
@@ -67,6 +68,7 @@ exports.login = async (req, res) => {
 
     try {
         let user = await User.findOne({ email });
+        let notice = await Notice.find({});
 
         if (!user) {
             return res.status(400).json({ msg: 'Invalid Credentials' });
@@ -92,7 +94,7 @@ exports.login = async (req, res) => {
             (err, token) => {
                 if (err) throw err;
                 let { password, ...userWithoutPassword } = user.toObject();
-                res.json({ token, user: userWithoutPassword });
+                res.json({ token, user: userWithoutPassword, notice });
             }
         );
     } catch (err) {
