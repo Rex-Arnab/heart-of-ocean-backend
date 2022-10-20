@@ -17,7 +17,7 @@ const generateReferralCode = () => {
 }
 
 exports.register = async (req, res) => {
-    const { name, email, password } = req.body;
+    const { name, email, phone, password } = req.body;
 
     try {
         let user = await User.findOne({ email });
@@ -30,7 +30,8 @@ exports.register = async (req, res) => {
             name,
             email,
             password,
-            parentReferralCode: "none",
+            phone,
+            parentReferralCode,
             referralCode: generateReferralCode()
         });
         await user.save();
