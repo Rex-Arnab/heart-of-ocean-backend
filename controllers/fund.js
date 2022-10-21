@@ -15,39 +15,54 @@ const get_fund = async (req, res) => {
     }
 };
 
-const update_fund = async (req, res) => {
+const deposit = async (req, res) => {
     try {
-        const user = await User.findOne({ _id: req.body.id });
+        const { id, amount, bank } = req.body;
+        console.log(req.body)
+        const user = await User.findOne({ _id: id });
         if (!user) {
             return res.status(404).json({ msg: 'User not found' });
         }
-        const { amount, flow } = req.body;
-        if (amount < 0) {
-            return res.status(400).json({ msg: 'Invalid amount' });
-        }
-        if (flow === 'deposit') {
-            user.wallet.fund += parseInt(amount);
-        }
-        if (flow === 'withdraw') {
-            if (user.wallet.fund < parseInt(amount)) {
-                return res.status(400).json({ msg: 'Insufficient fund' });
-            }
-            user.wallet.fund -= parseInt(amount);
-        }
+        user.wallet.fund += parseInt(amount);
         await user.save();
-        const newTxd = new Transaction({
+        const transaction = new Transaction({
             user: user.id,
-            message: `Fund ${flow}`,
-            flow,
             amount,
+            flow: 'deposit',
+            message: `Deposit to ${user.name}`,
+            bank
         });
-        await newTxd.save();
+        await transaction.save();
         res.json(user.wallet);
-    }
-    catch (err) {
+    } catch (err) {
         console.error(err.message);
         res.status(500).send('Server Error');
     }
 };
 
-module.exports = { get_fund, update_fund };
+const withdraw = async (req, res) => {
+    try {
+        const user = await User.findById(req.user.id);
+        if (!user) {
+            return res.status(404).json({ msg: 'User not found' });
+        }
+        const { amount } = req.body;
+        if (user.wallet < amount) {
+            return res.status(400).json({ msg: 'Insufficient funds' });
+        }
+        user.wallet = user.wallet - amount;
+        await user.save();
+        const transaction = new Transaction({
+            user: user.id,
+            amount,
+            type: 'withdraw'
+        });
+        await transaction.save();
+        res.json(user.wallet);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+};
+
+module.exports = { get_fund, deposit, withdraw };

@@ -8,7 +8,7 @@ const morgan = require('morgan');
 const bodyParser = require('body-parser');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000;
 
 // connect to mongodb
 mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true }, () => {

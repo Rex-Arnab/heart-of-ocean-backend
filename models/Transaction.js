@@ -24,7 +24,12 @@ const TxdSchema = new Schema({
     date: {
         type: Date,
         default: Date.now
+    },
+    bank: {
+        name: String,
+        account: String,
+        ifsc: String
     }
 });
 
-module.exports = Txd = mongoose.model('transaction', TxdSchema);
+module.exports = mongoose.model('transaction', TxdSchema);

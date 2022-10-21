@@ -3,12 +3,12 @@
 const express = require('express');
 const router = express.Router();
 
-const { get_fund, update_fund } = require('../controllers/fund');
+const { get_fund, deposit, withdraw } = require('../controllers/fund');
 
 // Get a fund by id
 router.get('/', get_fund);
 
-// Update a fund by id
-router.post('/', update_fund);
+router.post('/deposit', deposit);
+router.post('/withdraw', withdraw);
 
 module.exports = router;
