@@ -23,13 +23,13 @@ const update_fund = async (req, res) => {
         }
         const { amount, flow } = req.body;
         if (flow === 'deposit') {
-            user.wallet.fund += amount;
+            user.wallet.fund += parseInt(amount);
         }
         if (flow === 'withdraw') {
-            if (user.wallet.fund < amount) {
+            if (user.wallet.fund < parseInt(amount)) {
                 return res.status(400).json({ msg: 'Insufficient fund' });
             }
-            user.wallet.fund -= amount;
+            user.wallet.fund -= parseInt(amount);
         }
         await user.save();
         const newTxd = new Transaction({
