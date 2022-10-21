@@ -22,6 +22,9 @@ const update_fund = async (req, res) => {
             return res.status(404).json({ msg: 'User not found' });
         }
         const { amount, flow } = req.body;
+        if (amount < 0) {
+            return res.status(400).json({ msg: 'Invalid amount' });
+        }
         if (flow === 'deposit') {
             user.wallet.fund += parseInt(amount);
         }
