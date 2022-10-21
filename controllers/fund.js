@@ -65,4 +65,54 @@ const withdraw = async (req, res) => {
     }
 };
 
-module.exports = { get_fund, deposit, withdraw };
+const fundTransfer = async (req, res) => {
+    try {
+        const { amount, userTo, userFrom } = req.body;
+
+        const touser = await User.findOne({ _id: userTo });
+        const fromuser = await User.findOne({ _id: userFrom });
+
+        if (!touser) {
+            return res.status(404).json({ msg: 'User not found' });
+        }
+        if (!fromuser) {
+            return res.status(404).json({ msg: 'User not found' });
+        }
+        if (fromuser.wallet.fund < amount) {
+            return res.status(400).json({ msg: 'Insufficient funds' });
+        }
+        fromuser.wallet.fund = fromuser.wallet.fund - parseInt(amount);
+        touser.wallet.fund = touser.wallet.fund + parseInt(amount);
+        await fromuser.save();
+        await touser.save();
+        const transaction = new Transaction({
+            user: fromuser.id,
+            amount,
+            flow: 'transfer',
+            message: `Transfer to ${touser.name}`
+        });
+        await transaction.save();
+        res.json(fromuser.wallet);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+};
+
+const getTxdHistory = async (req, res) => {
+    try {
+        const user = await User.findById(req.body.id);
+        if (!user) {
+            return res.status(404).json({ msg: 'User not found' });
+        }
+        const transactions = await Transaction.find({ user: user.id });
+        res.json(transactions);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+};
+
+
+
+module.exports = { get_fund, deposit, withdraw, fundTransfer, getTxdHistory };
