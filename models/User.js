@@ -1,116 +1,300 @@
-// Add mongoose user schema and model
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 
-const mongoose = require('mongoose');
-
-// User Schema documentation
-// User
-// 1. name
-// 2. email
-// 3. password
-// 4. date
-// 5. createdAt
-// 6. updatedAt
-// 7. wallet (main, fund)
-// 8. status (active)
-// 9. role (admin, user)
-// 10. referralCode
-// 11. parentReferralCode
-
-const UserSchema = new mongoose.Schema({
-    name: {
-        type: String,
-        required: true
+const userSchema = new Schema({
+  name: {
+    type: String,
+    required: true,
+  },
+  email: {
+    type: String,
+    required: false,
+  },
+  phone: {
+    type: String,
+    required: true,
+  },
+  password: {
+    type: String,
+    required: true,
+  },
+  admin: {
+    type: Boolean,
+    default: false,
+  },
+  bank: {
+    bankName: {
+      type: String,
+      default: "",
     },
-    email: {
-        type: String,
+    accountNumber: {
+      type: String,
+      default: "",
     },
-    password: {
-        type: String,
-        unique: true,
-        required: true
+    ifscCode: {
+      type: String,
+      default: "",
     },
-    phone: String,
-    date: {
-        type: Date,
-        default: Date.now
+    accountName: {
+      type: String,
+      default: "",
     },
-    createdAt: {
-        type: Date,
-        default: Date.now
+    type: {
+      type: String,
+      default: "",
     },
-    updatedAt: {
-        type: Date,
-        default: Date.now
+    screenshot: {
+      type: String,
+      default: "",
+    }
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+  updatedAt: {
+    type: Date,
+    default: Date.now,
+  },
+  wallet: {
+    fundWallet: {
+      type: Number,
+      default: 0,
     },
-    wallet: {
-        main: {
-            type: Number,
-            default: 0
-        },
-        fund: {
-            type: Number,
-            default: 0
-        },
+    mainWallet: {
+      type: Number,
+      default: 0,
     },
-    status: {
-        active: {
-            type: Boolean,
-            default: true
-        },
+  },
+  boughtProducts: [
+    {
+      _id: {
+        type: Schema.Types.ObjectId,
+        ref: "Product",
+      },
+      expiryDate: Date,
     },
-    income: {
-        level: {
-            type: Number,
-            default: 0
-        },
-        loanInstallment: {
-            type: Number,
-            default: 0
-        },
-        due: {
-            type: Number,
-            default: 0
-        },
-        task: {
-            type: Number,
-            default: 0
-        },
-        royalty: {
-            type: Number,
-            default: 0
-        },
-        today: {
-            type: Number,
-            default: 0
-        },
-        totalBalance: {
-            type: Number,
-            default: 0
-        },
-        totalWithdraw: {
-            type: Number,
-            default: 0
-        },
-        totalAvailable: {
-            type: Number,
-            default: 0
-        },
+  ],
+  referredUsers: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "User",
     },
-    role: {
-        type: String,
-        enum: ['admin', 'user'],
-        default: 'user'
+  ],
+  referredBy: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+  },
+  idProof: {
+    type: String,
+    required: true,
+  },
+  status: {
+    active: {
+      type: Boolean,
+      default: false,
     },
-    referralCode: {
-        type: String,
-        unique: true,
-        required: true
+    rank: {
+      type: String,
+      default: "newbie",
     },
-    parentReferralCode: {
-        type: String,
-        required: true
+    rci: {
+      type: Number,
+      default: 0,
     },
+    referralIncome: {
+      type: Number,
+      default: 0,
+    },
+    levelIncome: {
+      type: Number,
+      default: 0,
+    },
+    SalaryIncome: {
+      type: Number,
+      default: 0,
+    },
+    totalWithdrawl: {
+      type: Number,
+      default: 0,
+    },
+    totalDeposit: {
+      type: Number,
+      default: 0,
+    },
+    totalIncome: {
+      type: Number,
+      default: 0,
+    },
+    totalPurchase: {
+      type: Number,
+      default: 0,
+    }
+  },
+  incomeOverview: {
+    level1: {
+      type: Number,
+      default: 0,
+    },
+    level2: {
+      type: Number,
+      default: 0,
+    },
+    level3: {
+      type: Number,
+      default: 0,
+    },
+    level4: {
+      type: Number,
+      default: 0,
+    },
+    level5: {
+      type: Number,
+      default: 0,
+    },
+    level6: {
+      type: Number,
+      default: 0,
+    },
+    level7: {
+      type: Number,
+      default: 0,
+    },
+    level8: {
+      type: Number,
+      default: 0,
+    },
+    level9: {
+      type: Number,
+      default: 0,
+    },
+    level10: {
+      type: Number,
+      default: 0,
+    },
+    level11: {
+      type: Number,
+      default: 0,
+    },
+    level12: {
+      type: Number,
+      default: 0,
+    },
+    level13: {
+      type: Number,
+      default: 0,
+    },
+    level14: {
+      type: Number,
+      default: 0,
+    },
+    level15: {
+      type: Number,
+      default: 0,
+    },
+    level16: {
+      type: Number,
+      default: 0,
+    },
+    level17: {
+      type: Number,
+      default: 0,
+    },
+    level18: {
+      type: Number,
+      default: 0,
+    },
+    level19: {
+      type: Number,
+      default: 0,
+    },
+    level20: {
+      type: Number,
+      default: 0,
+    },
+    level21: {
+      type: Number,
+      default: 0,
+    },
+    level22: {
+      type: Number,
+      default: 0,
+    },
+    level23: {
+      type: Number,
+      default: 0,
+    },
+    level24: {
+      type: Number,
+      default: 0,
+    },
+    level25: {
+      type: Number,
+      default: 0,
+    },
+    level26: {
+      type: Number,
+      default: 0,
+    },
+    level27: {
+      type: Number,
+      default: 0,
+    },
+    level28: {
+      type: Number,
+      default: 0,
+    },
+    level29: {
+      type: Number,
+      default: 0,
+    },
+    level30: {
+      type: Number,
+      default: 0,
+    },
+  },
+  adminPermissions: {
+    fundManagement: {
+      fundDeposit: {
+        type: Boolean,
+        default: false,
+      },
+      fundWithdraw: {
+        type: Boolean,
+        default: false,
+      },
+      fundTransfer: {
+        type: Boolean,
+        default: false,
+      },
+    },
+    userManagement: {
+      editUser: {
+        type: Boolean,
+        default: false,
+      },
+      deleteUser: {
+        type: Boolean,
+        default: false,
+      },
+    },
+    incomeManagement: {
+      rci: {
+        type: Boolean,
+        default: false,
+      },
+      levelIncome: {
+        type: Boolean,
+        default: false,
+      },
+      salaryIncome: {
+        type: Boolean,
+        default: false,
+      },
+    }
+  }
 });
 
+userSchema.index({ userId: 1, phone: 1 }, { unique: true });
 
-module.exports = User = mongoose.model('user', UserSchema);
+module.exports = mongoose.model("User", userSchema);

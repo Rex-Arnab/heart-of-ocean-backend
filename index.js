@@ -1,38 +1,55 @@
-// build a simple express app with mongoose , helmet, cors, morgan, body-parser
-require('dotenv').config();
-const express = require('express');
-const mongoose = require('mongoose');
-const helmet = require('helmet');
-const cors = require('cors');
-const morgan = require('morgan');
-const bodyParser = require('body-parser');
-
-const app = express();
+require("dotenv").config();
+let express = require("express");
+let app = express();
+const cors = require("cors");
+const helmet = require("helmet");
+const morgan = require("morgan");
+const { default: mongoose } = require("mongoose");
 const PORT = process.env.PORT || 5000;
 
-// connect to mongodb
-mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true }, () => {
-    console.log('connected to mongodb');
-});
+mongoose.connect(
+  process.env.MONGODB_URI,
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  },
+  () => {
+    console.log("Connected to MongoDB");
+  }
+);
 
-// use helmet
+app.use(morgan("dev"));
 app.use(helmet());
+app.disable("x-powered-by");
 
-// use cors
-app.use(cors());
+app.use(cors({
+  origin: "*",
+  methods: ["GET", "POST", "PUT", "DELETE"],
+}));
 
-// use morgan
-app.use(morgan('dev'));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-// use body-parser
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+// Custom server error handler
+app.use((err, req, res, next) => {
+  if (err) {
+    console.error(err.message)
+    if (!err.statusCode) { err.statusCode = 500 } // Set 500 server code error if statuscode not set
+    return res.status(err.statusCode).send({
+      statusCode: err.statusCode,
+      message: err.message
+    })
+  }
 
-// use routes
-app.use('/api', require('./routes/api'));
+  next()
+})
 
+app.use("/", require("./routes/baseRoute"));
+app.use("/user", require("./routes/userRoute"));
+app.use("/referral", require("./routes/referralRoute"));
+app.use("/admin", require("./routes/adminRoute"));
+app.use("/product", require("./routes/productRoute"));
 
-// start server
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+app.listen(PORT, function () {
+  console.log(`app listening on ${PORT}!`);
 });
