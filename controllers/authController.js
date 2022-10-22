@@ -177,7 +177,7 @@ const login = async (req, res) => {
 
 const reqister = async (req, res) => {
   try {
-    const { name, email, phone, password, admin, referredBy, idProof } = req.body;
+    const { name, email, phone, password, admin, referredBy } = req.body;
     let refID = referredBy;
 
     if (phone) {
@@ -194,6 +194,9 @@ const reqister = async (req, res) => {
     }
     if (refID.includes("ocean") || refID.includes("OCEAN")) {
       refID = await User.findOne({ userId: refID }).exec();
+      if (!refID) {
+        return res.status(400).json({ msg: "Invalid Referral ID" });
+      }
       refID = refID._id;
     }
     const user = addNewUser({
@@ -204,7 +207,6 @@ const reqister = async (req, res) => {
       admin,
       wallet: { fundWallet: 0, mainWallet: 0, referralWallet: 0 },
       referredBy: refID,
-      idProof,
     });
     user
       .then((me) => {

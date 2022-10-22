@@ -3,9 +3,9 @@ const Transaction = require("../models/Transaction");
 const User = require("../models/User");
 
 const addNewUser = async (user) => {
-  const { name, email, password, phone, admin, wallet, referredBy, idProof } =
+  const { name, email, password, phone, admin, wallet, referredBy } =
     user;
-  const referredUser = await User.findOne({ _id: referredBy }).exec();
+  const referredUser = await User.findOne({ userId: referredBy }).exec();
   const newUser = await User({
     name,
     email,
@@ -13,8 +13,7 @@ const addNewUser = async (user) => {
     admin,
     phone,
     wallet,
-    referredBy: referredUser._id,
-    idProof,
+    referredBy: referredUser._id
   });
 
   // Total Users

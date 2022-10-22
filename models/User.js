@@ -85,10 +85,6 @@ const userSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "User",
   },
-  idProof: {
-    type: String,
-    required: true,
-  },
   status: {
     active: {
       type: Boolean,
