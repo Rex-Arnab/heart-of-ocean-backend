@@ -24,7 +24,7 @@ app.disable("x-powered-by");
 
 app.use(cors({
   origin: ["http://localhost:3000", "https://heart-of-ocean-frontend.vercel.app", "https://oceanoftheheart.online", "https://www.oceanoftheheart.online"],
-  methods: ["GET", "POST", "PUT", "DELETE"],
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
 }));
 
 app.use(express.json());
