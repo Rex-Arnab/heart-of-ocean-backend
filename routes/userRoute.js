@@ -6,7 +6,7 @@ const productController = require("../controllers/productController");
 
 app.get("/", userController.getAllUsers);
 app.get("/:id", userController.getUserById);
-app.get("/referral/:phone", userController.getUserByUserId);
+app.get("/referral/:phone", userController.getUserByPhone);
 app.get("/:id/buy", authController.verifyToken, productController.buyProduct);
 app.post("/rci/income", authController.verifyToken, authController.verifyAdmin, userController.getRciIncome);
 app.post("/salary/income", authController.verifyToken, authController.verifyAdmin, userController.getSalaryIncome);

@@ -1076,6 +1076,23 @@ const UserOverviewIncome = async (req, res) => {
 const getUserDetails = modifyUserById;
 
 const getUserByUserId = async (req, res) => {
+  const { userId } = req.params;
+  try {
+
+    const user = await User.find({ userId: userId }, { password: 0 });
+    res.json({
+      user,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      msg: "Server error",
+    });
+  }
+}
+
+
+const getUserByPhone = async (req, res) => {
   const { phone } = req.params;
   try {
 
@@ -1173,6 +1190,7 @@ module.exports = {
   UserOverview,
   UserOverviewIncome,
   getUserByUserId,
+  getUserByPhone,
   checkReferral,
   activateUser
 };
