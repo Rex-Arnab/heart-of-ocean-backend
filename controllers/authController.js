@@ -87,47 +87,22 @@ const login = async (req, res) => {
   try {
 
     let user;
-    user = await User.findOne({ phone }).exec();
+    user = await User.find({ phone: phone }).exec();
     if (!user) {
-      return res.status(401).json({ msg: "User not found" });
-    } else if (user.password !== password) {
-      return res.status(401).json({ msg: "Invalid password" });
-    } else {
-      const team = await User.find(
-        {
-          _id: {
-            $in: user.referredUsers,
-          },
+      return res.status(400).json({ msg: "Invalid Credentials" });
+    }
+    const team = await User.find(
+      {
+        _id: {
+          $in: user.referredUsers,
         },
-        { userId: 1, name: 1, referredUsers: 1 }
-      ).exec();
+      },
+      { userId: 1, name: 1, referredUsers: 1 }
+    ).exec();
 
 
-      let budget = await Budget.findOne({ _id: '62d2da6507141fb2315886bd' }).exec()
-      if (user.admin) {
-        return res.json({
-          token: generateToken({
-            _id: user._id,
-            name: user.name,
-            email: user.email,
-            admin: user.admin,
-            phone: user.phone,
-          }),
-          user: {
-            _id: user._id,
-            userId: user.userId,
-            phone: user.phone,
-            name: user.name,
-            email: user.email,
-            admin: user.admin,
-            adminStat: budget,
-            wallet: user.wallet,
-            bank: user.bank,
-            team,
-            status: user.status,
-          },
-        });
-      }
+    let budget = await Budget.findOne({ _id: '62d2da6507141fb2315886bd' }).exec()
+    if (user.admin) {
       return res.json({
         token: generateToken({
           _id: user._id,
@@ -142,18 +117,40 @@ const login = async (req, res) => {
           phone: user.phone,
           name: user.name,
           email: user.email,
+          admin: user.admin,
+          adminStat: budget,
           wallet: user.wallet,
           bank: user.bank,
-          notice: {
-            text: budget.noticeText,
-            color: budget.noticeColor,
-            switch: budget.noticeSwitch,
-          },
           team,
           status: user.status,
         },
       });
     }
+    return res.json({
+      token: generateToken({
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        admin: user.admin,
+        phone: user.phone,
+      }),
+      user: {
+        _id: user._id,
+        userId: user.userId,
+        phone: user.phone,
+        name: user.name,
+        email: user.email,
+        wallet: user.wallet,
+        bank: user.bank,
+        notice: {
+          text: budget.noticeText,
+          color: budget.noticeColor,
+          switch: budget.noticeSwitch,
+        },
+        team,
+        status: user.status,
+      },
+    });
   } catch (err) {
     console.log(err);
     return res.status(500).json({ msg: "Server error" });
