@@ -1076,10 +1076,10 @@ const UserOverviewIncome = async (req, res) => {
 const getUserDetails = modifyUserById;
 
 const getUserByUserId = async (req, res) => {
-  const { userId } = req.params;
+  const { phone } = req.params;
   try {
 
-    const user = await User.find({ userId: userId }, { password: 0 });
+    const user = await User.find({ phone: phone }, { password: 0 });
     res.json({
       user,
     });
