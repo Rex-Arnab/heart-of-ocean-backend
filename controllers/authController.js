@@ -83,15 +83,11 @@ const verifyDeleteUserPermission = (req, res, next) => {
 }
 
 const login = async (req, res) => {
-  const { email, password } = req.body;
+  const { phone, password } = req.body;
   try {
 
     let user;
-    if (!isNaN(email)) {
-      user = await User.findOne({ phone: email }).exec();
-    } else if (email.includes("@")) {
-      user = await User.findOne({ email: email }).exec();
-    }
+    user = await User.findOne({ phone }).exec();
     if (!user) {
       return res.status(401).json({ msg: "User not found" });
     } else if (user.password !== password) {
@@ -107,19 +103,6 @@ const login = async (req, res) => {
       ).exec();
 
 
-      const products = await user.boughtProducts.map((productInfo) => {
-        return { id: productInfo.id, expiryDate: productInfo.expiryDate };
-      })
-      let product = [];
-      for (let prod of products) {
-        const productData = await Product.findOne({ _id: prod.id }, { __v: 0 }).exec();
-
-        product.push({
-          ...productData._doc,
-          expiryDate: prod.expiryDate,
-        });
-
-      }
       let budget = await Budget.findOne({ _id: '62d2da6507141fb2315886bd' }).exec()
       if (user.admin) {
         return res.json({
