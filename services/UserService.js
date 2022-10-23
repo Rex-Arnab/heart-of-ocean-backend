@@ -5,7 +5,8 @@ const User = require("../models/User");
 const addNewUser = async (user) => {
   const { name, email, password, phone, admin, wallet, referredBy } =
     user;
-  const referredUser = await User.findOne({ userId: referredBy }).exec();
+  const totalUsers = await User.find({}).countDocuments();
+  // const referredUser = await User.findOne({ userId: referredBy }).exec();
   const newUser = await User({
     name,
     email,
@@ -13,18 +14,15 @@ const addNewUser = async (user) => {
     admin,
     phone,
     wallet,
-    referredBy: referredUser._id
+    userId: `OCEAN${3000 + totalUsers + 1}`,
+    // referredBy: referredUser._id
   });
 
-  // Total Users
-  const totalUsers = await User.find({}).countDocuments();
-  newUser.userId = `OCEAN${3000 + totalUsers + 1}`;
-
   // Setting Referral Wallet
-  if (referredUser) {
-    referredUser.referredUsers.push(newUser._id);
-    referredUser.save();
-  }
+  // if (referredUser) {
+  //   referredUser.referredUsers.push(newUser._id);
+  //   referredUser.save();
+  // }
   return newUser.save();
 };
 
@@ -62,7 +60,7 @@ const fetchAllUsers = async (req, res) => {
   const order = req.query.order || "asc";
   const filter = req.query.filter || "";
   if (filter == "name") {
-    const userNames = await User.find({}, { _id: 1, name: 1, userId: 1 });
+    const userNames = await User.find({}, { _id: 1, name: 1, userId: 1, phone: 1 });
     return res.json(userNames);
   } else if (filter == "refs") {
     const userNames = await User.find({}, { name: 1, referredUsers: 1 });

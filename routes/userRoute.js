@@ -10,7 +10,7 @@ app.get("/referral/:userId", userController.getUserByUserId);
 app.get("/:id/buy", authController.verifyToken, productController.buyProduct);
 app.post("/rci/income", authController.verifyToken, authController.verifyAdmin, userController.getRciIncome);
 app.post("/salary/income", authController.verifyToken, authController.verifyAdmin, userController.getSalaryIncome);
-
+app.get("/activate/:id", userController.activateUser);
 app.get("/check/:userId", userController.checkReferral)
 
 app.put("/:id", authController.verifyToken, authController.verifyAdmin, authController.verifyEditUserPermission, userController.getUserDetails);

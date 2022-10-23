@@ -128,10 +128,12 @@ const login = async (req, res) => {
             name: user.name,
             email: user.email,
             admin: user.admin,
+            phone: user.phone,
           }),
           user: {
             _id: user._id,
             userId: user.userId,
+            phone: user.phone,
             name: user.name,
             email: user.email,
             admin: user.admin,
@@ -139,7 +141,6 @@ const login = async (req, res) => {
             wallet: user.wallet,
             bank: user.bank,
             team,
-            product,
             status: user.status,
           },
         });
@@ -150,10 +151,12 @@ const login = async (req, res) => {
           name: user.name,
           email: user.email,
           admin: user.admin,
+          phone: user.phone,
         }),
         user: {
           _id: user._id,
           userId: user.userId,
+          phone: user.phone,
           name: user.name,
           email: user.email,
           wallet: user.wallet,
@@ -164,7 +167,6 @@ const login = async (req, res) => {
             switch: budget.noticeSwitch,
           },
           team,
-          product,
           status: user.status,
         },
       });
@@ -192,13 +194,13 @@ const reqister = async (req, res) => {
         return res.status(400).json({ msg: "Email already exists" });
       }
     }
-    if (refID.includes("ocean") || refID.includes("OCEAN")) {
-      refID = await User.findOne({ userId: refID }).exec();
-      if (!refID) {
-        return res.status(400).json({ msg: "Invalid Referral ID" });
-      }
-      refID = refID._id;
-    }
+    // if (refID.includes("ocean") || refID.includes("OCEAN")) {
+    //   refID = await User.findOne({ userId: refID }).exec();
+    //   if (!refID) {
+    //     return res.status(400).json({ msg: "Invalid Referral ID" });
+    //   }
+    //   refID = refID._id;
+    // }
     const user = addNewUser({
       name,
       email,
@@ -206,7 +208,7 @@ const reqister = async (req, res) => {
       password,
       admin,
       wallet: { fundWallet: 0, mainWallet: 0, referralWallet: 0 },
-      referredBy: refID,
+      // referredBy: refID,
     });
     user
       .then((me) => {

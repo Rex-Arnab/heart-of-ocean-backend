@@ -1134,6 +1134,28 @@ const getDownUsersList = async (userId) => {
   }
 }
 
+const activateUser = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const user = await User.findOne({ _id: id });
+    if (user) {
+      user.status.active = true;
+      await user.save();
+      return res.status(200).json({
+        msg: "User activated successfully",
+      });
+    }
+    return res.status(404).json({
+      msg: "User not found",
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      msg: "Internal server error",
+    });
+  }
+}
+
 module.exports = {
   getAllUsers,
   deleteById,
@@ -1152,4 +1174,5 @@ module.exports = {
   UserOverviewIncome,
   getUserByUserId,
   checkReferral,
+  activateUser
 };
