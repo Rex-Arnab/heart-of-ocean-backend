@@ -257,11 +257,11 @@ const userSchema = new Schema({
     fundManagement: {
       fundDeposit: {
         type: Boolean,
-        default: false,
+        default: true,
       },
       fundWithdraw: {
         type: Boolean,
-        default: false,
+        default: true,
       },
       fundTransfer: {
         type: Boolean,
