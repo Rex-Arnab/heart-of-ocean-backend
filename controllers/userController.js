@@ -1156,7 +1156,19 @@ const activateUser = async (req, res) => {
   try {
     const user = await User.findOne({ _id: id });
     if (user) {
+      if (user.wallet.fundWallet < 100) {
+        return res.status(400).json({ error: 'Insufficient fund' });
+      }
       user.status.active = true;
+      user.wallet.fundWallet -= 100;
+      // Add a transaction for user activation
+        new Transaction({
+          user: user._id,
+          amount: 100,
+          type: 'Account Activation',
+          status: 'Success',
+        }).save();
+
       await user.save();
       return res.status(200).json({
         msg: "User activated successfully",
