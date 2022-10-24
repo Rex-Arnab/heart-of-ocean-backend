@@ -22,7 +22,9 @@ app.post("/deposit", authController.verifyToken,
   // authController.verifyFundDepositPermission,
   userController.depositById);
 app.post("/refund", authController.verifyToken, authController.verifyAdmin, userController.ReFundsById);
-app.post("/widthdrawl", authController.verifyToken, authController.verifyFundWithdrawPermission, userController.widthdrawlById);
+app.post("/widthdrawl", authController.verifyToken,
+  // authController.verifyFundWithdrawPermission,
+  userController.widthdrawlById);
 app.post("/bank/:userId", authController.verifyToken, userController.saveBankDetails);
 
 app.post("/:id", authController.verifyToken, userController.changePassword);
