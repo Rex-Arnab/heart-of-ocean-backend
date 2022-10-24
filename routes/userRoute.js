@@ -32,7 +32,7 @@ app.post("/:id", authController.verifyToken, userController.changePassword);
 
 app.post(
   "/transfer/balance",
-  // authController.verifyToken,
+  authController.verifyToken,
   // authController.verifyFundTransferPermission,
   userController.transferBalance
 );
