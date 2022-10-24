@@ -60,7 +60,11 @@ const fetchAllUsers = async (req, res) => {
   const order = req.query.order || "asc";
   const filter = req.query.filter || "";
   if (filter == "name") {
-    const userNames = await User.find({}, { _id: 1, name: 1, userId: 1, phone: 1, status: 1 });
+    const userNames = await User.find({}, {
+      _id: 1, name: 1, userId: 1, phone: 1, status: {
+        active: 1
+      }
+    });
     return res.json(userNames);
   } else if (filter == "refs") {
     const userNames = await User.find({}, { name: 1, referredUsers: 1 });
