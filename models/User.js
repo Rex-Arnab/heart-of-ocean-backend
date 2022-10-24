@@ -88,7 +88,7 @@ const userSchema = new Schema({
   referredBy: {
     type: Schema.Types.ObjectId,
     ref: "User",
-  },    
+  },
   status: {
     active: {
       type: Boolean,
@@ -265,7 +265,7 @@ const userSchema = new Schema({
       },
       fundTransfer: {
         type: Boolean,
-        default: false,
+        default: true,
       },
     },
     userManagement: {
