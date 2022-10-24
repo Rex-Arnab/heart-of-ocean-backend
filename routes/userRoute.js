@@ -17,7 +17,10 @@ app.put("/:id", authController.verifyToken, authController.verifyAdmin, authCont
 
 app.post("/register", authController.reqister);
 app.post("/login", authController.login);
-app.post("/deposit", authController.verifyToken, authController.verifyAdmin, authController.verifyFundDepositPermission, userController.depositById);
+app.post("/deposit", authController.verifyToken,
+  authController.verifyAdmin,
+  // authController.verifyFundDepositPermission,
+  userController.depositById);
 app.post("/refund", authController.verifyToken, authController.verifyAdmin, userController.ReFundsById);
 app.post("/widthdrawl", authController.verifyToken, authController.verifyFundWithdrawPermission, userController.widthdrawlById);
 app.post("/bank/:userId", authController.verifyToken, userController.saveBankDetails);
