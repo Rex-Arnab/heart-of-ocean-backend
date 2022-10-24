@@ -191,7 +191,7 @@ const reqister = async (req, res) => {
       password,
       admin,
       wallet: { fundWallet: 0, mainWallet: 0, referralWallet: 0 },
-      // referredBy: refID,
+      referredBy: refID,
     });
     user
       .then((me) => {

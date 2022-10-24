@@ -6,7 +6,7 @@ const addNewUser = async (user) => {
   const { name, email, password, phone, admin, wallet, referredBy } =
     user;
   const totalUsers = await User.find({}).countDocuments();
-  // const referredUser = await User.findOne({ userId: referredBy }).exec();
+  const referredUser = await User.findOne({ userId: referredBy }).exec();
   const newUser = await User({
     name,
     email,
@@ -15,14 +15,14 @@ const addNewUser = async (user) => {
     phone,
     wallet,
     userId: `OCEAN${3000 + totalUsers + 1}`,
-    // referredBy: referredUser._id
+    referredBy: referredUser._id
   });
 
   // Setting Referral Wallet
-  // if (referredUser) {
-  //   referredUser.referredUsers.push(newUser._id);
-  //   referredUser.save();
-  // }
+  if (referredUser) {
+    referredUser.referredUsers.push(newUser._id);
+    referredUser.save();
+  }
   return newUser.save();
 };
 
