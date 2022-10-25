@@ -1112,7 +1112,7 @@ const checkReferral = async (req, res) => {
   const { userId } = req.params;
   try {
 
-    const user = await User.find({ userId: userId });
+    const user = await User.find({ phone: userId });
     if (user.length > 0) {
       return res.status(200).json({
         _id: user[0]._id,

@@ -6,7 +6,7 @@ const addNewUser = async (user) => {
   const { name, email, password, phone, admin, wallet, referredBy } =
     user;
   const totalUsers = await User.find({}).countDocuments();
-  const referredUser = await User.findOne({ userId: referredBy }).exec();
+  const referredUser = await User.findOne({ phone: referredBy }).exec();
   const newUser = await User({
     name,
     email,
