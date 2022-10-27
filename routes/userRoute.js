@@ -40,7 +40,7 @@ app.delete(
   "/:id",
   authController.verifyToken,
   authController.verifyAdmin,
-  authController.verifyDeleteUserPermission,
+  // authController.verifyDeleteUserPermission,
   userController.deleteById
 );
 

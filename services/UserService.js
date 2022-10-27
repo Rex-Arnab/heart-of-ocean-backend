@@ -5,7 +5,8 @@ const User = require("../models/User");
 const addNewUser = async (user) => {
   const { name, email, password, phone, admin, wallet, referredBy } =
     user;
-  const totalUsers = await User.find({}).countDocuments();
+  // random number between 3000 to 10000
+  const randNo = Math.floor(Math.random() * 7000) + 3000;
   const referredUser = await User.findOne({ phone: referredBy }).exec();
   const newUser = await User({
     name,
@@ -14,7 +15,7 @@ const addNewUser = async (user) => {
     admin,
     phone,
     wallet,
-    userId: `OCEAN${3000 + totalUsers + 1}`,
+    userId: `OCEAN${randNo}`,
     referredBy: referredUser._id
   });
 
