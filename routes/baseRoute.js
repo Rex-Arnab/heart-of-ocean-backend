@@ -3,9 +3,7 @@ const app = express.Router();
 const authController = require("../controllers/authController");
 const Transaction = require("../models/Transaction");
 const Product = require("../controllers/productController");
-const userController = require("../controllers/userController");
 const User = require("../models/User");
-const nodemailer = require("nodemailer");
 
 app.get("/", function (_req, res) {
   res.send("Hello World!");
@@ -110,36 +108,5 @@ app.get("/reset/:id", async (req, res) => {
   res.json({ msg: "Done with " + curUser.name })
 })
 
-app.get("/forget", async (_req, res) => {
-  // forget password using node mailer
-  const transporter = await nodemailer.createTransport({
-    host: "smtpout.secureserver.net",
-    port: 993,
-    auth: {
-      user: "support@futuregrow.in", // generated ethereal user
-      pass: "Password@123", // generated ethereal password
-    },
-  });
-
-  const mailOptions = {
-    from: "support@futuregrow.in", // sender address
-    to: "khanp4397@gmail.com", // receiver address
-    subject: "Forget Password", // Subject line
-    text: "Your New Password is : password", // plain text body
-    html: "<h1>Woooooow</h1><a href='#'> You can put links in here too , now that's usefull</a>", // html body
-  };
-
-  await transporter.sendMail(mailOptions, (error, info) => {
-    if (error) {
-      console.log(error);
-      res.status(500).json({ msg: "Error" });
-    } else {
-      console.log("Email sent: " + info.response);
-      res.json({ msg: "Email sent" })
-    }
-  });
-
-
-})
 
 module.exports = app;
