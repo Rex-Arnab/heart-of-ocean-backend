@@ -13,7 +13,11 @@ app.post("/salary/income", authController.verifyToken, authController.verifyAdmi
 app.get("/activate/:id", userController.activateUser);
 app.get("/check/:userId", userController.checkReferral)
 
-app.put("/:id", authController.verifyToken, authController.verifyAdmin, authController.verifyEditUserPermission, userController.getUserDetails);
+app.put("/:id",
+  authController.verifyToken,
+  authController.verifyAdmin,
+  // authController.verifyEditUserPermission,
+  userController.getUserDetails);
 
 app.post("/register", authController.reqister);
 app.post("/login", authController.login);
@@ -21,7 +25,10 @@ app.post("/deposit", authController.verifyToken,
   // authController.verifyAdmin,
   // authController.verifyFundDepositPermission,
   userController.depositById);
-app.post("/refund", authController.verifyToken, authController.verifyAdmin, userController.ReFundsById);
+app.post("/refund",
+  authController.verifyToken,
+  authController.verifyAdmin,
+  userController.ReFundsById);
 app.post("/widthdrawl",
   authController.verifyToken,
   // authController.verifyFundWithdrawPermission,
